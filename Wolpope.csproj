@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Wolpope</RootNamespace>
+    <AssemblyName>Wolpope</AssemblyName>
+    <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <!-- Встраиваем лого как WPF Resource для Image.Source и Window.Icon -->
+  <ItemGroup>
+    <Resource Include="Assets\logo.jpg" />
+  </ItemGroup>
+
+  <!-- Встраиваем ICO как ресурс для системного трея -->
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\logo.ico" />
+  </ItemGroup>
+
+</Project>

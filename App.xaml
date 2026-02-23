@@ -1,0 +1,19 @@
+<Application x:Class="Wolpope.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:h="clr-namespace:Wolpope.Helpers">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Theme/ThemeResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            
+            <!-- Глобальные конвертеры -->
+            <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+            <h:InverseBoolToVisibilityConverter x:Key="InvBoolToVis"/>
+            <h:EqualityConverter x:Key="EqualityConverter"/>
+            <h:EqualityToVisibilityConverter x:Key="EqualityToVisibilityConverter"/>
+            
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

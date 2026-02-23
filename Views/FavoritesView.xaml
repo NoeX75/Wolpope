@@ -1,0 +1,90 @@
+<UserControl x:Class="Wolpope.Views.FavoritesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="{StaticResource SurfaceBrush}">
+    <Border Padding="32" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Заголовок -->
+            <TextBlock Text="❤️ Favorite Wallpapers"
+                       Foreground="{StaticResource TextBrush}"
+                       FontSize="24" FontWeight="Bold" Margin="0,0,0,16"/>
+
+            <!-- Сетка миниатюр -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl x:Name="FavoritesGrid" ItemsSource="{Binding FavoritesList}" HorizontalAlignment="Stretch">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel HorizontalAlignment="Stretch"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <!-- Привязка к SelectFavoriteCommand во ViewModel окна -->
+                            <Border x:Name="ThumbBorder"
+                                    Width="150" Height="100" Margin="4"
+                                    CornerRadius="6" ClipToBounds="True"
+                                    BorderBrush="Transparent" BorderThickness="2"
+                                    Background="#FF262637"
+                                    Cursor="Hand">
+                                <Border.InputBindings>
+                                    <MouseBinding MouseAction="LeftClick" 
+                                                  Command="{Binding DataContext.SelectFavoriteCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                                  CommandParameter="{Binding}" />
+                                </Border.InputBindings>
+                                <Grid>
+                                    <Image Source="{Binding Thumbnail}"
+                                           Stretch="UniformToFill"
+                                           RenderOptions.BitmapScalingMode="HighQuality"/>
+                                    <!-- Оверлей при выделении -->
+                                    <Border x:Name="SelectOverlay" Background="#507C3AED"
+                                            Visibility="Collapsed">
+                                        <TextBlock Text="✓" Foreground="White"
+                                                   FontSize="28" FontWeight="Bold"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                    <Setter TargetName="ThumbBorder" Property="BorderBrush" Value="#FF7C3AED"/>
+                                    <Setter TargetName="SelectOverlay" Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+            <!-- Пустое состояние -->
+            <TextBlock x:Name="EmptyText" Grid.Row="1"
+                       Text="No favorite wallpapers found. Add some using the heart button."
+                       Foreground="{StaticResource SubtextBrush}"
+                       FontSize="14" HorizontalAlignment="Center"
+                       VerticalAlignment="Center" Visibility="{Binding IsFavoritesEmpty, Converter={StaticResource BoolToVis}}"/>
+
+            <!-- Счётчик -->
+            <Grid Grid.Row="2" Margin="0,16,0,0">
+                <TextBlock Text="{Binding FavoritesCountText}" VerticalAlignment="Center"
+                           Foreground="{StaticResource SubtextBrush}" FontSize="12"/>
+            </Grid>
+
+            <!-- Кнопки -->
+            <WrapPanel Grid.Row="3" Margin="0,16,0,0" HorizontalAlignment="Center">
+                <Button Content="📁 Add From File" Command="{Binding AddFromFileCommand}" 
+                        Style="{StaticResource MenuButtonStyle}" Margin="0,0,8,0" Background="{StaticResource CardBrush}"/>
+                <Button Content="🗑 Delete Selected" Command="{Binding DeleteSelectedFavoritesCommand}" 
+                        Style="{StaticResource MenuButtonStyle}" Margin="0,0,8,0" Background="{StaticResource CardBrush}"/>
+                <Button Content="📂 Open Folder" Command="{Binding OpenFavoritesFolderCommand}" 
+                        Style="{StaticResource MenuButtonStyle}" Background="{StaticResource CardBrush}"/>
+            </WrapPanel>
+        </Grid>
+    </Border>
+</UserControl>
